@@ -1,0 +1,2 @@
+[app_servers]
+app_server ansible_host=54.123.45.67 ansible_user=ubuntu
