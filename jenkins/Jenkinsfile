@@ -40,23 +40,33 @@ pipeline {
         stage('Run Container Test') {
     steps {
         script {
+            // Remove any existing test container
+            sh 'docker rm -f ci-test-container || true'
+
+            // Start the new application container
             sh """
                 docker run -d \
                 --name ci-test-container \
                 ${DOCKER_IMAGE}:${DOCKER_TAG}
             """
 
+            // Wait for Nginx to start
             sh 'sleep 5'
 
+            // Test the application
             sh """
                 docker run --rm \
                 --network container:ci-test-container \
                 curlimages/curl:latest \
                 curl -f http://localhost
             """
+        }
+    }
 
-            sh 'docker stop ci-test-container'
-            sh 'docker rm ci-test-container'
+    post {
+        always {
+            // Always remove the test container
+            sh 'docker rm -f ci-test-container || true'
         }
     }
 }
