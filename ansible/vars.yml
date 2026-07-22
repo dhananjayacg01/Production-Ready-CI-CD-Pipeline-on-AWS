@@ -1,0 +1,5 @@
+---
+docker_image: "dhananjaya01/production-cicd-app:v1"
+container_name: "production-app"
+container_port: 80
+host_port: 8080

@@ -1,7 +1,10 @@
 ---
-- name: Configure Application Servers
+- name: Configure and Deploy Application
   hosts: app_servers
   become: true
+
+  vars_files:
+    - vars.yml
 
   tasks:
 
@@ -22,3 +25,22 @@
         name: docker
         state: started
         enabled: true
+
+    - name: Pull application Docker image
+      community.docker.docker_image:
+        name: "{{ docker_image }}"
+        source: pull
+
+    - name: Stop existing application container
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        state: absent
+
+    - name: Start application container
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ docker_image }}"
+        state: started
+        restart_policy: unless-stopped
+        published_ports:
+          - "{{ host_port }}:{{ container_port }}"
