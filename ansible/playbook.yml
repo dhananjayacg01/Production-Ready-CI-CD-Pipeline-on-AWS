@@ -1,0 +1,24 @@
+---
+- name: Configure Application Servers
+  hosts: app_servers
+  become: true
+
+  tasks:
+
+    - name: Update apt package cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      ansible.builtin.apt:
+        name:
+          - docker.io
+          - git
+        state: present
+
+    - name: Start Docker service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
