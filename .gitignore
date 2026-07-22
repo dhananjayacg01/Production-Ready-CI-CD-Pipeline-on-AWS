@@ -1,0 +1,20 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+
+# Terraform lock file
+# Keep this file if you want reproducible provider versions
+# .terraform.lock.hcl
+
+# Secrets
+*.pem
+*.key
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
