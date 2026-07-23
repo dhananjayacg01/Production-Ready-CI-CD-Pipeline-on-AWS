@@ -63,8 +63,6 @@ Git Push
     ↓
 GitHub
 
-## 🔧 Jenkins Setup
-
 ### 1. Start Jenkins
 
 Jenkins can be run using Docker.
